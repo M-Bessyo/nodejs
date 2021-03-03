@@ -1,0 +1,107 @@
+わからなかった単語だったり、機能を調べて記す。
+
+・curl
+cURLは、さまざまなプロトコルを用いてデータを転送するライブラリとコマンドラインツールを提供するプロジェクトである。[1]https://ja.wikipedia.org/wiki/CURL
+このプロジェクトの成果としてlibcurl, curlがあり、ターミナルで使用した(今回調べる)のはcurlである。
+
+curlはURLシンタックスを用いてファイルを送信または受信するコマンドラインツールである。[1]
+
+第一次仕様から一部抜粋
+$ curl --help
+
+ -d, --data <data>   HTTP POST data
+     --data-ascii <data> HTTP POST ASCII data
+     --data-binary <data> HTTP POST binary data
+     --data-raw <data> HTTP POST data, '@' allowed
+     --data-urlencode <data> HTTP POST data url encoded
+     --delegation <LEVEL> GSS-API delegation permission
+     --digest        Use HTTP Digest Authentication
+
+ -X, --request <command> Specify request command to use
+     --request-target Specify the target for this request
+     --resolve <host:port:address[,address]...> Resolve the host+port to this address
+     --retry <num>   Retry request if transient problems occur
+     --retry-connrefused Retry on connection refused (use with --retry)
+     --retry-delay <seconds> Wait time between retries
+     --retry-max-time <seconds> Retry only within this period
+     --sasl-ir       Enable initial response in SASL authentication
+     --service-name <name> SPNEGO service name
+
+
+$ curl --manual
+
+       -d, --data <data>
+              (HTTP) Sends the specified data in a POST request  to  the  HTTP
+              server,  in  the  same  way  that a browser does when a user has
+              filled in an HTML form and presses the submit button. This  will
+              cause curl to pass the data to the server using the content-type
+              application/x-www-form-urlencoded.  Compare to -F, --form.
+
+              --data-raw is almost the same but does not have a special inter-
+              pretation  of  the  @ character. To post data purely binary, you
+              should instead use the --data-binary option.  To URL-encode  the
+              value of a form field you may use --data-urlencode.
+
+              If  any of these options is used more than once on the same com-
+              mand line, the data pieces specified  will  be  merged  together
+              with  a  separating  &-symbol.  Thus,  using  '-d name=daniel -d
+              skill=lousy'  would  generate  a  post  chunk  that  looks  like
+              'name=daniel&skill=lousy'.
+
+              If  you  start  the data with the letter @, the rest should be a
+              file name to read the data from, or - if you want curl  to  read
+              the data from stdin. Multiple files can also be specified. Post-
+              ing data from a file named from a file like that,  carriage  re-
+              turns and newlines will be stripped out. If you don't want the @
+              character to have a special interpretation  use  --data-raw  in-
+              stead.
+
+              See also --data-binary and --data-urlencode and --data-raw. This
+              option overrides -F, --form and -I,  --head  and  -T,  --upload-
+              file.
+
+       -X, --request <command>
+              (HTTP) Specifies a custom request method to use when communicat-
+              ing  with the HTTP server.  The specified request method will be
+              used instead of the method otherwise  used  (which  defaults  to
+              GET).  Read  the HTTP 1.1 specification for details and explana-
+              tions. Common additional HTTP requests include PUT  and  DELETE,
+              but related technologies like WebDAV offers PROPFIND, COPY, MOVE
+              and more.
+
+              Normally you don't need this option. All  sorts  of  GET,  HEAD,
+              POST and PUT requests are rather invoked by using dedicated com-
+              mand line options.
+
+              This option only changes the actual word used in  the  HTTP  re-
+              quest, it does not alter the way curl behaves. So for example if
+              you want to make a proper HEAD request, using -X HEAD  will  not
+              suffice. You need to use the -I, --head option.
+
+              The  method  string  you set with -X, --request will be used for
+              all requests, which if you for example use  -L,  --location  may
+              cause  unintended  side-effects when curl doesn't change request
+              method according to the HTTP 30x response codes - and similar.
+
+              (FTP) Specifies a custom FTP command to use instead of LIST when
+              doing file lists with FTP.
+
+              (POP3) Specifies a custom POP3 command to use instead of LIST or
+              RETR. (Added in 7.26.0)
+
+              (IMAP) Specifies a custom IMAP command to use instead  of  LIST.
+              (Added in 7.30.0)
+
+              (SMTP) Specifies a custom SMTP command to use instead of HELP or
+              VRFY. (Added in 7.34.0)
+
+              If this option is used several times, the last one will be used.
+
+ざっくりとしたオプション(-X)の説明
+本来通信ではGET, HEAD, POST, PUTのような通信の要求（方法）がある。
+現在ではそれらを省略して通信ができるが、このオプションを用いることでわざわざその通信の要求（方法）ができらしいです。
+
+ざっくりとしたオブション(-d)の説明
+POSTリクエストで指定した（-dの後にある）データをHTTPに送信する。
+
+
